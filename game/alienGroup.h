@@ -15,5 +15,9 @@ public:
 	void draw(RenderWindow& win);
 	void sideMove(bool time);
 	void downMove();
+	int getAmountFilled() { return theGang.size(); }
 	int disappear(shotMgr m, bool& hit);
+	void RandomDropBomb(shotMgr& m);
+	alien * getlist(int i);
+	void reset();
 };

@@ -149,6 +149,7 @@
     <ClCompile Include="alien.cpp" />
     <ClCompile Include="alienGroup.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="playerMgr.cpp" />
     <ClCompile Include="shotMgr.cpp" />
     <ClCompile Include="settingsUI.cpp" />
     <ClCompile Include="weapon.cpp" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="alien.h" />
     <ClInclude Include="alienGroup.h" />
+    <ClInclude Include="playerMgr.h" />
     <ClInclude Include="shotMgr.h" />
     <ClInclude Include="settingsUI.h" />
     <ClInclude Include="weapon.h" />

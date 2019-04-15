@@ -11,7 +11,8 @@ class shotMgr
 {
 private:
 	vector<shot*> shotsFired;
-	Texture missileTexture;
+	Texture missileTexture,
+		    bombTexture;
 public:
 	shotMgr();
 	void shoot(attackType b_OR_m, Vector2f pos);

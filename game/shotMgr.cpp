@@ -8,6 +8,11 @@ shotMgr::shotMgr()
 		cout << "Unable to load missile texture!" << endl;
 		exit(EXIT_FAILURE);
 	}
+	if (!bombTexture.loadFromFile("bomb.png"))
+	{
+		cout << "Unable to load bomb texture!" << endl;
+		exit(EXIT_FAILURE);
+	}
 }
 
 void shotMgr::shoot(attackType b_OR_m, Vector2f pos)
@@ -15,7 +20,7 @@ void shotMgr::shoot(attackType b_OR_m, Vector2f pos)
 	if(b_OR_m == MISSILE)
 	shotsFired.push_back(new missile(pos, missileTexture));
 	else
-	shotsFired.push_back(new bomb(pos, missileTexture));
+	shotsFired.push_back(new bomb(pos, bombTexture));
 }
 
 void shotMgr::disappear(bool hit, int index)
@@ -55,12 +60,21 @@ void shotMgr::disappear(bool hit, int index)
 
 void shotMgr::move()
 {
+	const float DISTANCE = 6.0f;
 
 	for (int i = 0; i < shotsFired.size(); i++)
 	{
-		const float DISTANCE = 6.0f;
-		shotsFired[i]->getSprite().move(0, -DISTANCE);
+		if (shotsFired[i]->getType() == MISSILE)
+		{
+
+			shotsFired[i]->getSprite().move(0, -DISTANCE);
+		}
+		else
+		{
+		    shotsFired[i]->getSprite().move(0, DISTANCE);
+		}
 	}
+
 
 	//for (list<shot*>::iterator iter = shotsFired.begin(); iter != shotsFired.end(); iter++)
 	//{
@@ -69,6 +83,7 @@ void shotMgr::move()
 	//	const float DISTANCE = 6.0f;
 	//	ptrShot->getSprite().move(0, -DISTANCE);
 	//}
+
 }
 
 void shotMgr::draw(RenderWindow & win)

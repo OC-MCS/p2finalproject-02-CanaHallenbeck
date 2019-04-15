@@ -16,6 +16,7 @@ public:
 	shot(Vector2f pos, attackType b_OR_m);
 	virtual void draw(RenderWindow & win) = 0;
 	virtual Sprite & getSprite() = 0;
+	attackType getType() { return bombOrMissile; }
 };
 
 class missile : public shot
