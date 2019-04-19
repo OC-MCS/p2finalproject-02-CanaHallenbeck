@@ -127,9 +127,7 @@ bool menu::introScreen(RenderWindow& window)
 			loadGameButton.setFillColor(Color::Yellow);
 			while (window.pollEvent(event))
 			{
-				if (event.type == Event::Closed)
-					window.close();
-				else if (event.type == Event::MouseButtonReleased)
+				if (event.type == Event::MouseButtonReleased)
 				{
 					wait = false;
 					newGameOrLoadGame = true;
@@ -205,9 +203,7 @@ void menu::levelSelect(RenderWindow & window, alienGroupMgr & a)
 
 			while (window.pollEvent(event))
 			{
-				if (event.type == Event::Closed)
-					window.close();
-				else if (event.type == Event::MouseButtonReleased)
+				if (event.type == Event::MouseButtonReleased)
 				{
 					wait = false;
 					a.setLevel(LEVEL_ONE_HARD);
@@ -216,11 +212,17 @@ void menu::levelSelect(RenderWindow & window, alienGroupMgr & a)
 		}
 		else if (HarbetModeButton.getGlobalBounds().contains(mousePos))
 		{
-
-			 if (event.type == Event::MouseButtonReleased)
+			easyButton.setFillColor(Color::White);
+			hardButton.setFillColor(Color::White);
+			HarbetModeButton.setFillColor(Color::Yellow);
+			
+			while (window.pollEvent(event))
 			{
-				wait = false;
-				a.setLevel(HARBERT);
+				if (event.type == Event::MouseButtonReleased)
+				{
+					wait = false;
+					a.setLevel(HARBERT);
+				}
 			}
 		}
 
@@ -375,6 +377,72 @@ void menu::victoryDisplay(RenderWindow & window, int score, int lives)
 
 }
 
+void menu::deathDisplay(RenderWindow & window, int score)
+{
+	bool wait = true;
+	int count = 0;
+
+	Text continueTextPromt("PRESS ANY KEY TO CONTINUE", font, 20);
+	continueTextPromt.setPosition(234, 400);
+	Text VictoryHeader("YOU DIED", font, 60);
+	VictoryHeader.setPosition(230, 145);
+	Text PointDisplay("\HIGEST SCORE : " + to_string(score), font, 20);
+	PointDisplay.setPosition(290, 350);
+
+	RectangleShape outline;
+	outline.setPosition(25, 40);
+	outline.setOutlineColor(Color::White);
+	outline.setOutlineThickness(3);
+	outline.setSize(Vector2f(750, 500));
+	outline.setFillColor(Color::Transparent);
+
+	while (wait)
+	{
+		window.clear();
+		window.draw(outline);
+		window.draw(VictoryHeader);
+		window.draw(PointDisplay);
+		window.display();
+
+		count++;
+		if (count > 170)
+			wait = false;;
+	}
+
+	wait = true;
+	count = 0;
+
+	while (wait)
+	{
+		window.clear();
+		window.draw(outline);
+		window.draw(VictoryHeader);
+		window.draw(PointDisplay);
+		window.draw(continueTextPromt);
+		window.display();
+
+		if (count > 40 && count < 60)
+			continueTextPromt.setFillColor(Color::Black);
+		else if (count > 60)
+		{
+			count = 0;
+			continueTextPromt.setFillColor(Color::White);
+		}
+
+		Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::KeyPressed)
+			{
+				wait = false;
+			}
+
+		}
+
+		count++;
+	}
+}
+
 void menu::playAgainPrompt(RenderWindow & window)
 {
 
@@ -421,12 +489,10 @@ void menu::playAgainPrompt(RenderWindow & window)
 			noButton.setFillColor(Color::Yellow);
 			while (window.pollEvent(event))
 			{
-				if (event.type == Event::Closed)
-					window.close();
-				else if (event.type == Event::MouseButtonReleased)
+				 if (event.type == Event::MouseButtonReleased)
 				{
 					window.close();
-					window.clear();
+					cout << "Thanks for playing" << endl;
 				}
 			}
 		}
@@ -439,20 +505,21 @@ void menu::playAgainPrompt(RenderWindow & window)
 
 }
 
-void menu::saveGame(ostream & o, alienGroupMgr a, player p)
-{
-	for (int i = 0; i < a.getAmountFilled(); i++)
-	{
-		o.write(reinterpret_cast<char*>(&a.getlist(i)->getFileRecord()),
-			sizeof(a.getlist(i)->getFileRecord()));
-	}
-}
+//void menu::saveGame(ostream & o, alienGroupMgr a, player p)
+//{
+//	for (int i = 0; i < a.getAmountFilled(); i++)
+//	{
+//		o.write(reinterpret_cast<char*>(&a.getlist(i)->getFileRecord()),
+//			sizeof(a.getlist(i)->getFileRecord()));
+//	}
+//}
 
+//
 //void menu::loadGame(istream & in, alienGroupMgr *a)
 //{
 //	difficultyType tempLvl = LEVEL_ONE_EASY;
 //	Vector2f loc(0, 0);
-//	AlienData tempData;
+//	
 //
 //	while (in.read(reinterpret_cast<char*>(&tempLvl), sizeof(AlienData)))
 //	{
@@ -464,4 +531,4 @@ void menu::saveGame(ostream & o, alienGroupMgr a, player p)
 //
 //	a->setLevel(tempLvl);
 //}
-//
+

@@ -2,7 +2,6 @@
 // Cana Hallenbeck
 // Programming II -- Due Friday, April 19
 // Space invaders ft. Galaga sprites
-//
 //==========================================================================
 
 #include <iostream>
@@ -26,25 +25,25 @@ int main()
 	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "aliens!");
 	window.setFramerateLimit(60);
 
-	shotMgr shot;
-	alienGroupMgr alien;
-	player ship(window);
-	menu menu;
+	shotMgr shot; // shots fired by aliens or player
+	alienGroupMgr alien; // aliens on screen
+	player ship(window); // player sprite
+	menu menu; // menu display funtions
 
-	int index,
-		timer = 0,
-		seconds = 0,
-		minutes = 0,
-		livesRemaining = 3,
-		scoreCount = 0,
-		highScore = 0,
-		returnToPreviousScore = 0;
-	bool secSwitch = false,
-		 death = false,
-		 hit,
-		 toStartMenu = true,
-		 newGameOrLoadGame_SelectionMenu = true,
-		 levelChoiceDisplay = true;
+	int bulletIndex, // index of the bullet that hit the alien
+		timer = 0,   // counts the framerate
+		seconds = 0, // seconds played (60 frames)
+		minutes = 0, // minutes played (60 seconds)
+		livesRemaining = 3, // lives that the player has until game-over
+		scoreCount = 0, // score gained by killing enemies
+		highScore = 0,  // highest score achieved during the game before dying
+		returnToPreviousScore = 0; // score gained from previous levels (if past level one)
+	bool secSwitch = false, // switches after a certain amount of frames for alien behavior
+		 death = false, // did the player die?
+		 hit, // was an alien hit?
+		 toStartMenu = true, // return to intro screen
+		 newGameOrLoadGame_SelectionMenu = true, // save or load game option (unfinished)
+		 levelChoiceDisplay = true; // level selection menu
 
 
 	Texture starsTexture;
@@ -65,39 +64,15 @@ int main()
 	background.setScale(1.5, 1.5);
 
 
-	//ifstream read;
-	//read.open("shapes.bin", ios::in | ios::binary);
-
-	//if (!read)
-	//{
-	//	cout << "file Open Failure" << endl;
-	//	EXIT_FAILURE;
-	//}
-	//else
-	//{
-	//	menu.loadGame(read, &alien);
-	//}
-
-	//read.close();
-
-	//ofstream write;
-	//write.open("shapes.bin", ios::out | ios::binary);
-	//if (!write)
-	//{
-	//	cout << "file Open Failure" << endl;
-	//	EXIT_FAILURE;
-	//}
-
 	while (window.isOpen())
 	{
-
-		//------------------------------------------- YOU CAN COMMENT OUT THIS WHOLE SECTION TO BUG TEST WITHOUT MENU --------.------------ REPLACE WITH THIS CODE FOR MORE GENERIC LEVEL INTERFACE -----,
-		//																													  |																			 |
-		if (toStartMenu)    //																								  |										 									 |
-		{                   //																								  |																			 |
-		newGameOrLoadGame_SelectionMenu = menu.introScreen(window);//														  |																			 |
-		toStartMenu = false;//																								  |																			 |
-		}//																													  |																<------------`
+		//------------------------------------------- YOU CAN COMMENT OUT THIS WHOLE SECTION TO BUG TEST WITHOUT MENU --------.
+		//																													  |
+		if (toStartMenu)    //																								  |										 							
+		{                   //																								  |																		
+		newGameOrLoadGame_SelectionMenu = menu.introScreen(window);//														  |																		
+		toStartMenu = false;//																								  |																			
+		}//																													  |															
 		else if (newGameOrLoadGame_SelectionMenu)   //															  			  |
 		{											//																		  |
 			menu.levelSelect(window, alien);		//							( MENU UI CLASS )							  |							
@@ -109,7 +84,7 @@ int main()
 		else if (levelChoiceDisplay)//																						  |
 		{//																													  |
 			menu.levelChoiceDisplay(window, alien, starsTexture);//											    			  |
-			levelChoiceDisplay = false;//																					  |
+			levelChoiceDisplay = false;							 //															  |
 		  //																												  |
 		} //------------------------------------------------------------------------------------------------------------------`
 
@@ -162,8 +137,8 @@ int main()
 					ship.shoot(ship, window, shot);		//															`---------------,
 					//																												|
 					hit = false; //																									|
-					index = alien.disappear(shot, hit); //																			|
-					shot.disappear(hit, index); //																					|
+					bulletIndex = alien.disappear(shot, hit); //																	|
+					shot.disappear(hit, bulletIndex); //																			|
 					//																												|
 					ship.move(); //																								    |
 					alien.sideMove(secSwitch); //																				    |
@@ -197,14 +172,14 @@ int main()
 					//																																		|
 					if (alien.getAmountFilled() == 0)	//																									|
 					{									//																								 ---|
-						returnToPreviousScore = (scoreCount + (50 * livesRemaining));			//							THIS LINE, TOO				|	|
+						returnToPreviousScore = (scoreCount + (50 * livesRemaining));			//							THIS TOO					|	|
 						menu.victoryDisplay(window, returnToPreviousScore, livesRemaining); 	//	      <<-------------------------------------------------															|	|
 						
-						if (alien.getType() == LEVEL_TWO_EASY || alien.getType() == LEVEL_TWO_HARD)
+						if (alien.getType() == LEVEL_TWO_EASY || alien.getType() == LEVEL_TWO_HARD || HARBERT)
 						{
 							toStartMenu = true;
 							newGameOrLoadGame_SelectionMenu = true;
-							menu.playAgainPrompt(window);
+							menu.playAgainPrompt(window); // << -----------------------------------------------------------------------------------------------
 						}
 					
 						levelChoiceDisplay = true;
@@ -226,7 +201,8 @@ int main()
 		}
 		else
 		{
-			menu.playAgainPrompt(window);
+			menu.deathDisplay(window, highScore);//  <<-------------------------------------------------
+			menu.playAgainPrompt(window); // << -------------------------------------------------
 			toStartMenu = true;
 			newGameOrLoadGame_SelectionMenu = true;
 			levelChoiceDisplay = true;
@@ -243,9 +219,16 @@ int main()
 
 void timerFunctions(alienGroupMgr & alien, shotMgr & shot, int & timer, int & seconds, int & minutes, bool & secSwitch)
 {
-
-	if (timer == 30)
-		alien.RandomBombDrop(shot);
+	if (alien.getType() == LEVEL_ONE_EASY || alien.getType() == LEVEL_TWO_EASY)
+	{
+		if (timer == 30)
+			alien.RandomBombDrop(shot);
+	}
+	else if(alien.getType() == LEVEL_ONE_HARD || alien.getType() == LEVEL_TWO_HARD)
+	{
+		if (timer == 30 || timer == 60)
+			alien.RandomBombDrop(shot);
+	}
 
 	if (timer < 60)
 		timer++;

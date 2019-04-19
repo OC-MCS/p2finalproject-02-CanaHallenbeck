@@ -41,21 +41,6 @@ void shotMgr::disappear(bool hit, int index)
 
 		}
 	}
-
-
-	//for (list<shot*>::iterator iter = shotsFired.begin(); iter != shotsFired.end();)
-	//{
-	//	shot* ptrShot = *iter;
-
-	//	if (ptrShot->getSprite().getPosition().y < 0)
-	//	{
-	//		iter = shotsFired.erase(iter);
-	//	}
-	//	else
-	//	{
-	//		iter++;
-	//	}
-	//}
 }
 
 void shotMgr::move()
@@ -74,15 +59,6 @@ void shotMgr::move()
 		}
 	}
 
-
-	//for (list<shot*>::iterator iter = shotsFired.begin(); iter != shotsFired.end(); iter++)
-	//{
-	//	shot* ptrShot = *iter;
-
-	//	const float DISTANCE = 6.0f;
-	//	ptrShot->getSprite().move(0, -DISTANCE);
-	//}
-
 }
 
 void shotMgr::draw(RenderWindow & win)
@@ -92,13 +68,6 @@ void shotMgr::draw(RenderWindow & win)
 	{
 		shotsFired[i]->draw(win);
 	}
-
-	//for (list<shot*>::iterator iter = shotsFired.begin(); iter != shotsFired.end(); iter++)
-	//{
-	//	shot* ptrShot = *iter;
-
-	//	ptrShot->draw(win);
-	//}
 }
 
 void shotMgr::reset()

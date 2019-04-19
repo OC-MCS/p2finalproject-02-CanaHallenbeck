@@ -4,6 +4,14 @@
 #include <list>
 using namespace std;
 
+//
+//struct AlienData
+//{
+//	float XposLoc,
+//		YposLoc;
+//	difficultyType Difficulty;
+//};
+
 class alienGroupMgr
 {
 private:

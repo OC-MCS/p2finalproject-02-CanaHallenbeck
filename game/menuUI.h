@@ -6,8 +6,6 @@ using namespace std;
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-
-
 class menu
 {
 private:
@@ -20,7 +18,8 @@ public:
 	void levelSelect(RenderWindow& window, alienGroupMgr& a);
 	void levelChoiceDisplay(RenderWindow& window, alienGroupMgr a, Texture backTexture);
 	void victoryDisplay(RenderWindow & window, int score, int lives);
+	void deathDisplay(RenderWindow & window, int score);
 	void playAgainPrompt(RenderWindow & win);
-	void saveGame(ostream & o, alienGroupMgr a, player p);
-	void loadGame(istream & i, alienGroupMgr * a);
+	//void saveGame(ostream & o, alienGroupMgr a, player p);
+	//void loadGame(istream & i, alienGroupMgr* a);
 };

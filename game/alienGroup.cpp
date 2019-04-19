@@ -123,7 +123,7 @@ int alienGroupMgr::disappear(shotMgr m, bool & hit)
 		{
 			FloatRect bulletBound = m.getList(i)->getSprite().getGlobalBounds();
 
-			if (alienBound.intersects(bulletBound) && m.getList(i)->getType() == MISSILE)
+			if (alienBound.intersects(bulletBound) && m.getList(i)->getType() == MISSILE || ptrShot->getSprite().getPosition().y >= 600)
 			{
 				hit = true;
 				bulletIndex = i;
@@ -200,6 +200,7 @@ void alienGroupMgr::reset()
 			iter = theGang.erase(iter);
 	}
 	
+
 	if (lvl == LEVEL_ONE_EASY)
 	{
 		for (int i = 0; i < 4; i++)
@@ -212,7 +213,7 @@ void alienGroupMgr::reset()
 		}
 	}
 
-	else if (lvl == LEVEL_ONE_HARD)
+	else if (lvl == LEVEL_TWO_HARD)
 	{
 		for (int i = 0; i < 5; i++)
 		{
@@ -224,11 +225,11 @@ void alienGroupMgr::reset()
 		}
 	}
 
-	else if (lvl == LEVEL_TWO_EASY)
+	else if (lvl == LEVEL_ONE_HARD)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			for (int j = 0; j < 7;)
+			for (int j = 0; j < 8;)
 			{
 				Vector2f vec(135 + (90 * j), 50 + (70 * i));
 				theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
@@ -250,6 +251,11 @@ void alienGroupMgr::reset()
 				theGang.push_back(new lvlOne_Hard(vec, alienHardLvlTexture));
 			}
 		}
+	}
+	else if (lvl == HARBERT)
+	{
+		Vector2f vec(200, 300);
+		theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
 	}
 }
 

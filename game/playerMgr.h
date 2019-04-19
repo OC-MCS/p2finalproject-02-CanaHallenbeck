@@ -15,7 +15,7 @@ class player
 {
 private:
 	Sprite ship;
-	Texture shipTexture;
+	Texture shipTexture, harbetModeTexture;
 	float xPos, yPos;
 
 public:
@@ -25,4 +25,5 @@ public:
 	Sprite & getSprite() { return ship; }
 	void reset();
 	void shoot(player p, RenderWindow & win, shotMgr & shot);
+	void setTexture();
 };

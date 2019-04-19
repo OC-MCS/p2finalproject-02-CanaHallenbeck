@@ -7,6 +7,11 @@ player::player(RenderWindow & win)
 		cout << "Unable to load ship texture!" << endl;
 		exit(EXIT_FAILURE);
 	}
+	if (!harbetModeTexture.loadFromFile("ship2.png"))
+	{
+		cout << "Unable to load ship (2) texture!" << endl;
+		exit(EXIT_FAILURE);
+	}
 
 	xPos = win.getSize().x / 2.0f;
 	yPos = win.getSize().y / 1.08f;
@@ -52,9 +57,14 @@ void player::shoot(player p, RenderWindow & window, shotMgr & shot)
 		{//																							`---------------,
 			if (event.key.code == Keyboard::Space)//																|
 			{//																										|
-				shot.shoot(MISSILE, p.getSprite().getPosition());//												|
+				shot.shoot(MISSILE, p.getSprite().getPosition());//													|
 			}//																										|
 		}//																											|
 	}//																												|
 
+}
+
+void player::setTexture()
+{
+	ship.setTexture(harbetModeTexture);
 }
