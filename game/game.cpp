@@ -2,7 +2,6 @@
 // Cana Hallenbeck
 // Programming II -- Due Friday, April 19
 // Space invaders ft. Galaga sprites
-
 //==========================================================================
 
 #include <iostream>
@@ -60,7 +59,7 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 
-	Sprite background;
+	Sprite background; // level backdrop
 	background.setTexture(starsTexture);
 	background.setScale(1.5, 1.5);
 
@@ -87,45 +86,46 @@ int main()
 			menu.levelChoiceDisplay(window, alien, starsTexture);//											    			  |
 			levelChoiceDisplay = false;							 //															  |
 		  //																												  |
-		} //------------------------------------------------------------------------------------------------------------------`
-
-		else if (livesRemaining > 0) // (And change 'else if' to 'if')
-		{
-				death = false;
-
-				for (int i = 0; !death && i < alien.getAmountFilled(); i++)
-				{
-					FloatRect alienBound = alien.getlist(i)->getSprite().getGlobalBounds();
-
-					if (alienBound.intersects(ship.getSprite().getGlobalBounds()))
-					{
-						secSwitch = false;
-						death = true;
-						livesRemaining--;
-						shot.reset();
-						ship.reset();
-						alien.reset();
-
-						if (scoreCount > highScore)
-							highScore = scoreCount;
-
-						scoreCount = returnToPreviousScore;
-					}
-				}
-				for (int i = 0; !death && i < shot.getAmountFilled(); i++)
-				{
-					FloatRect bulletBound = shot.getList(i)->getSprite().getGlobalBounds();
-
-					if (bulletBound.intersects(ship.getSprite().getGlobalBounds())
-						&& shot.getList(i)->getType() == BOMB)
-					{
-						secSwitch = false;
-						death = true;
-						hit = true;
-						livesRemaining--;
-						shot.reset();
-						ship.reset();
-						alien.reset();
+		} //--------------------------------------------------------------------------------------------------------.---------`
+		  //																										|
+		else if (livesRemaining > 0) // (And change 'else if' to 'if')												|
+		{																		            //						|
+				death = false;																//						|
+																							//						|
+				for (int i = 0; !death && i < alien.getAmountFilled(); i++)					//						|
+				{																			//						|
+					FloatRect alienBound = alien.getlist(i)->getSprite().getGlobalBounds(); //						|
+																							//						|
+					if (alienBound.intersects(ship.getSprite().getGlobalBounds()) 			//						|
+						|| alien.getlist(i)->getSprite().getPosition().y > 600)				//						|
+					{																		//						|
+						secSwitch = false;													//						|
+						death = true;														//						|
+						livesRemaining--;													//						|
+						shot.reset();														//						|
+						ship.reset();														//						|
+						alien.reset();														//						|
+																							//						|
+						if (scoreCount > highScore)											//						|
+							highScore = scoreCount;											//						|
+																							//						|
+						scoreCount = returnToPreviousScore;									//						|
+					}																		//						|
+				}																			//						|
+				for (int i = 0; !death && i < shot.getAmountFilled(); i++)					//					    |
+				{																			//		 			    |
+					FloatRect bulletBound = shot.getList(i)->getSprite().getGlobalBounds();	//						|
+																							//						|
+					if (bulletBound.intersects(ship.getSprite().getGlobalBounds())			//_						|
+						&& shot.getList(i)->getType() == BOMB)			//						|					|
+					{													//						.					|
+						secSwitch = false;			//											-					|
+						death = true;				//											'					|
+						hit = true;				    //																|
+						livesRemaining--;			//																|
+						shot.reset();				//																|
+						ship.reset();				//																|
+						alien.reset();				//																|
 													//																|
 						if (scoreCount > highScore) //																|
 							highScore = scoreCount; //																|
@@ -134,12 +134,12 @@ int main()
 					}//																								|
 				}	 //																								|
 				if (!death)//																						|
-				{//																									|
+				{		   //																					    |
 					ship.shoot(ship, window, shot);		//															`---------------,
-					//																												|
-					hit = false; //																									|
+														//																			|
+					hit = false;							  //																	|
 					bulletIndex = alien.disappear(shot, hit); //																	|
-					shot.disappear(hit, bulletIndex); //																			|
+					shot.disappear(hit, bulletIndex);		  //																	|
 					//																												|
 					ship.move(); //																								    |
 					alien.sideMove(secSwitch); //																				    |
@@ -156,11 +156,11 @@ int main()
 					//																																		|
 					//																																		|
 					Text time("Time played   " + to_string(minutes) + " : " + to_string(seconds) + " : " + to_string(timer), font, 15); //				    |
-					time.setPosition(10, 5); //																												|
+					time.setPosition(10, 5);   //																											|
 					Text score("Score  " + to_string(scoreCount), font, 15); //																				|
 					score.setPosition(10, 25); //																											|
 					Text lives("Lives  " + to_string(livesRemaining), font, 15); //																			|
-					lives.setPosition(10, 45);//																											|
+					lives.setPosition(10, 45); //																											|
 					//																																		|
 					window.draw(background);   //  <--- ----- ----- -- background																		    |
 					ship.draw(window);		   //  <---- ------ ---- ---- ship																				|
@@ -173,37 +173,37 @@ int main()
 					//																																		|
 					if (alien.getAmountFilled() == 0)	//																									|
 					{									//																								 ---|
-						returnToPreviousScore = (scoreCount + (50 * livesRemaining));			//							THIS TOO					|	|
-						menu.victoryDisplay(window, returnToPreviousScore, livesRemaining); 	//	      <<-------------------------------------------------															|	|
-						
-						if (alien.getType() == LEVEL_TWO_EASY || alien.getType() == LEVEL_TWO_HARD || HARBERT)
-						{
-							toStartMenu = true;
-							newGameOrLoadGame_SelectionMenu = true;
-							menu.playAgainPrompt(window); // << -----------------------------------------------------------------------------------------------
-						}
-					
-						levelChoiceDisplay = true;
-						livesRemaining = 3; 
-
-						if (alien.getType() == LEVEL_ONE_EASY)
-							alien.setLevel(LEVEL_TWO_EASY);
-						else if (alien.getType() == LEVEL_ONE_HARD)
-							alien.setLevel(LEVEL_TWO_HARD);
-						
-						alien.reset();
-						shot.reset();
-						ship.reset();
-					}
-
-				}
-				
-				window.display();
-		}
-		else
-		{
-			menu.deathDisplay(window, highScore);//  <<-------------------------------------------------
-			menu.playAgainPrompt(window); // << -------------------------------------------------
+						returnToPreviousScore = (scoreCount + (50 * livesRemaining));			//														|	|
+						menu.victoryDisplay(window, returnToPreviousScore, livesRemaining); 	//	      <<------------------------------------------------|
+						//																																	|
+						if (alien.getType() == LEVEL_TWO_EASY || alien.getType() == LEVEL_TWO_HARD || HARBERT)	//											|
+						{																						//				THESE TOO					|
+							toStartMenu = true;																	//											|
+																												//											|
+							newGameOrLoadGame_SelectionMenu = true;												//											|
+							menu.playAgainPrompt(window); // << ---------------------------------------------------------------,----------------------------
+						}							//																		   |
+						levelChoiceDisplay = true;  //																		   |
+						livesRemaining = 3;			//																		   |
+													//																		   |
+						if (alien.getType() == LEVEL_ONE_EASY)		//														   |
+							alien.setLevel(LEVEL_TWO_EASY);			//														   |
+						else if (alien.getType() == LEVEL_ONE_HARD)	//														   |
+							alien.setLevel(LEVEL_TWO_HARD);			//														   |
+										//																					   |
+						alien.reset();	//																					   |
+						shot.reset();	//																					   |
+						ship.reset(); 	//																					   |
+					}					//																,----------------------`
+					//																				   |
+				}	//																				   |
+				//																					   |
+				window.display();  		//														   	   |
+		}//																							   |
+		else									 //													   |
+		{									     //												  	   |
+			menu.deathDisplay(window, highScore);//  <<------------------------------------------,-----`
+			menu.playAgainPrompt(window); // << -------------------------------------------------`
 			toStartMenu = true;
 			newGameOrLoadGame_SelectionMenu = true;
 			levelChoiceDisplay = true;
@@ -220,6 +220,10 @@ int main()
 
 void timerFunctions(alienGroupMgr & alien, shotMgr & shot, int & timer, int & seconds, int & minutes, bool & secSwitch)
 {
+	//--------------------------------------------------------------------------------------------------------------
+	// TIMER FUNTION -- Controls everything managed acording to framerate
+	//--------------------------------------------------------------------------------------------------------------
+
 	if (alien.getType() == LEVEL_ONE_EASY || alien.getType() == LEVEL_TWO_EASY)
 	{
 		if (timer == 30)

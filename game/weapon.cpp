@@ -1,3 +1,9 @@
+//-------------------------------------------------------------
+//	weapon -- 
+//
+//	a class that controls the data for alien and player attacks
+//-------------------------------------------------------------
+
 #include "weapon.h"
 using namespace std;
 #include <SFML/Graphics.hpp>

@@ -1,3 +1,9 @@
+//----------------------------------------------------------
+//	alien group -- 
+//
+//	a class that controls the actions of the alien as a group
+//-----------------------------------------------------------
+
 #include "alienGroup.h"
 #include "shotMgr.h"
 #include <iostream>
@@ -123,7 +129,7 @@ int alienGroupMgr::disappear(shotMgr m, bool & hit)
 		{
 			FloatRect bulletBound = m.getList(i)->getSprite().getGlobalBounds();
 
-			if (alienBound.intersects(bulletBound) && m.getList(i)->getType() == MISSILE || ptrShot->getSprite().getPosition().y >= 600)
+			if (alienBound.intersects(bulletBound) && m.getList(i)->getType() == MISSILE)
 			{
 				hit = true;
 				bulletIndex = i;
@@ -254,22 +260,9 @@ void alienGroupMgr::reset()
 	}
 	else if (lvl == HARBERT)
 	{
-		Vector2f vec(200, 300);
+		Vector2f vec(300, 300);
 		theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
 	}
-}
-
-void alienGroupMgr::loadSavePos(Vector2f pos, difficultyType d)
-{
-	if (d == LEVEL_ONE_EASY)
-		theGang.push_back(new lvlOne_Easy(pos, alienEasyTexture));
-	else if (d == LEVEL_ONE_HARD)
-		theGang.push_back(new lvlOne_Hard(pos, alienHardLvlTexture));
-	else if (d == LEVEL_TWO_EASY)
-		theGang.push_back(new lvlTwo_Easy(pos, alienHardLvlTexture));
-	else if (d == LEVEL_TWO_HARD)
-		theGang.push_back(new lvlTwo_Hard(pos, alienHardLvlTexture));
-
 }
 
 void alienGroupMgr::setLevel(difficultyType type)

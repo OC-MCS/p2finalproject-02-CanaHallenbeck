@@ -1,3 +1,9 @@
+//----------------------------------------------------------
+//	player manager -- 
+//
+//	a class in charge of the player's actions
+//-----------------------------------------------------------
+
 #include "playerMgr.h"
 
 player::player(RenderWindow & win)
@@ -5,11 +11,6 @@ player::player(RenderWindow & win)
 	if (!shipTexture.loadFromFile("ship.png"))
 	{
 		cout << "Unable to load ship texture!" << endl;
-		exit(EXIT_FAILURE);
-	}
-	if (!harbetModeTexture.loadFromFile("ship2.png"))
-	{
-		cout << "Unable to load ship (2) texture!" << endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -64,7 +65,3 @@ void player::shoot(player p, RenderWindow & window, shotMgr & shot)
 
 }
 
-void player::setTexture()
-{
-	ship.setTexture(harbetModeTexture);
-}

@@ -1,3 +1,8 @@
+//----------------------------------------------------------
+//	player manager -- 
+//
+//	a class in charge of the player's actions
+//-----------------------------------------------------------
 #pragma once
 #include <iostream>
 #include "playerMgr.h"
@@ -15,15 +20,14 @@ class player
 {
 private:
 	Sprite ship;
-	Texture shipTexture, harbetModeTexture;
+	Texture shipTexture;
 	float xPos, yPos;
 
 public:
-	player(RenderWindow& win);
-	void move();
-	void draw(RenderWindow& win);
-	Sprite & getSprite() { return ship; }
-	void reset();
-	void shoot(player p, RenderWindow & win, shotMgr & shot);
-	void setTexture();
+	player(RenderWindow& win); // <------------------------ loads texture, set position and texture of ship
+	void move(); // <------------------------------------- load position of player
+	void draw(RenderWindow& win); // <-------------------- draw player every frame
+	Sprite & getSprite() { return ship; } // <------------- return sprite data
+	void reset(); // <------------------------------------- set to initial position
+	void shoot(player p, RenderWindow & win, shotMgr & shot); // <------ if space pressed, shoot
 };

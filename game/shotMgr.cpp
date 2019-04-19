@@ -1,3 +1,8 @@
+//--------------------------------------------------------------------------
+//	shot manager -- 
+//
+//	a class that controls the vector of shots fired by aliens or the player
+//--------------------------------------------------------------------------
 #include "shotMgr.h"
 using namespace std;
 

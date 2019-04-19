@@ -1,23 +1,29 @@
+//-------------------------------------------------------------
+//	alien -- 
+//
+//	a class that controls the data for each individual alien
+//-----------------------------------------------------------
+
 #pragma once
 #include <vector>
 using namespace std;
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-enum difficultyType {LEVEL_ONE_EASY, LEVEL_TWO_EASY, LEVEL_ONE_HARD, LEVEL_TWO_HARD, HARBERT};
+enum difficultyType {LEVEL_ONE_EASY, LEVEL_TWO_EASY, LEVEL_ONE_HARD, LEVEL_TWO_HARD, HARBERT}; // difficulty level
 
 
-class alien
+class alien // base class
 {
 private:
 	float xPos,
 		  yPos;
 	difficultyType lvl;
 public:
-	alien(Vector2f pos, difficultyType d);
-	virtual void draw(RenderWindow & win) = 0;
-	virtual Sprite & getSprite() = 0;
-	difficultyType getType() { return lvl; }
+	alien(Vector2f pos, difficultyType d); // <------------ sets position and texture
+	virtual void draw(RenderWindow & win) = 0; // <-------- draws aliens on screen
+	virtual Sprite & getSprite() = 0; //   <--------------- returns alien sprite data
+	difficultyType getType() { return lvl; } // <---------- returns alien level
 };
 
 class lvlOne_Easy : public alien

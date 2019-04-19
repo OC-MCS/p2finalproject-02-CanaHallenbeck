@@ -1,3 +1,9 @@
+//----------------------------------------------------------------
+//	menu UI -- 
+//
+//	a class in charge of menu option display (e.g. level select)
+//----------------------------------------------------------------
+
 #include "menuUI.h"
 #include <iostream>
 #include "alienGroup.h"
