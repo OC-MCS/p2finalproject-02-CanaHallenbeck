@@ -66,7 +66,6 @@ void shotMgr::move()
 	{
 		if (shotsFired[i]->getType() == MISSILE)
 		{
-
 			shotsFired[i]->getSprite().move(0, -DISTANCE);
 		}
 		else
@@ -100,6 +99,14 @@ void shotMgr::draw(RenderWindow & win)
 
 	//	ptrShot->draw(win);
 	//}
+}
+
+void shotMgr::reset()
+{
+	for( int i = 0; i < shotsFired.size(); i++)
+	{
+		shotsFired.erase(shotsFired.begin() + i);
+	}
 }
 
 

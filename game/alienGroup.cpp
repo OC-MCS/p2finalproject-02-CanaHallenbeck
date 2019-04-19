@@ -8,19 +8,17 @@ using namespace sf;
 
 alienGroupMgr::alienGroupMgr()
 {
-	if (!alienTexture.loadFromFile("alien2.png"))
+	
+	if (!alienEasyTexture.loadFromFile("alien.png"))
 	{
-		cout << "Unable to load missile texture!" << endl;
+		cout << "Unable to load alien (1) texture!" << endl;
 		exit(EXIT_FAILURE);
 	}
 
-	for (int i = 0; i < 4; i++)
+	if (!alienHardLvlTexture.loadFromFile("alien2.png"))
 	{
-		for (int j = 0; j < 7; j++)
-		{
-			Vector2f vec(135 + (90 * j), 50 + (70 * i));
-			theGang.push_back(new lvlOneCrook(vec, alienTexture));
-		}
+		cout << "Unable to load alien (2) texture!" << endl;
+		exit(EXIT_FAILURE);
 	}
 
 }
@@ -43,7 +41,12 @@ void alienGroupMgr::sideMove(bool time)
 		alien* ptrShot = *iter;
 		float pos = ptrShot->getSprite().getPosition().x;
 
-		const float DISTANCE = 0.5f;	
+		float DISTANCE;
+
+		if (ptrShot->getType() == LEVEL_ONE_EASY || ptrShot->getType() == LEVEL_TWO_EASY)
+			DISTANCE = 0.5f;
+		else if (ptrShot->getType() == LEVEL_ONE_HARD || ptrShot->getType() == LEVEL_TWO_HARD)
+			DISTANCE = 1.0f;
 
 		if (wallSwitch)
 		{
@@ -142,16 +145,15 @@ int alienGroupMgr::disappear(shotMgr m, bool & hit)
 
 }
 
-void alienGroupMgr::RandomDropBomb(shotMgr& m)
+void alienGroupMgr::RandomBombDrop(shotMgr& m)
 {
-
 		Vector2f loc;
 		bool found = false;
 
 		unsigned seed = time(0);
 		srand(seed);
 
-		const int MIN_VALUE = 1;
+		const int MIN_VALUE = 0;
 		const int MAX_VALUE = theGang.size();
 
 		int value = (rand() % (MAX_VALUE - MIN_VALUE + 1)) + MIN_VALUE;
@@ -169,8 +171,6 @@ void alienGroupMgr::RandomDropBomb(shotMgr& m)
 
 			count++;
 		}
-
-
 		if (found)
 		{
 			m.shoot(BOMB, loc);
@@ -200,13 +200,74 @@ void alienGroupMgr::reset()
 			iter = theGang.erase(iter);
 	}
 	
-	for (int i = 0; i < 4; i++)
+	if (lvl == LEVEL_ONE_EASY)
 	{
-		for (int j = 0; j < 7; j++)
+		for (int i = 0; i < 4; i++)
 		{
-			Vector2f vec(135 + (90 * j), 50 + (70 * i));
-			theGang.push_back(new lvlOneCrook(vec, alienTexture));
+			for (int j = 0; j < 7; j++)
+			{
+				Vector2f vec(135 + (90 * j), 50 + (70 * i));
+				theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
+			}
 		}
 	}
+
+	else if (lvl == LEVEL_ONE_HARD)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 7; j++)
+			{
+				Vector2f vec(135 + (90 * j), 50 + (70 * i));
+				theGang.push_back(new lvlOne_Hard(vec, alienHardLvlTexture));
+			}
+		}
+	}
+
+	else if (lvl == LEVEL_TWO_EASY)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 7;)
+			{
+				Vector2f vec(135 + (90 * j), 50 + (70 * i));
+				theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
+				j++;
+				theGang.push_back(new lvlOne_Hard(vec, alienHardLvlTexture));
+				j++;
+				theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
+			}
+		}
+	}
+
+	else if (lvl == LEVEL_TWO_HARD)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				Vector2f vec(135 + (90 * j), 50 + (70 * i));
+				theGang.push_back(new lvlOne_Hard(vec, alienHardLvlTexture));
+			}
+		}
+	}
+}
+
+void alienGroupMgr::loadSavePos(Vector2f pos, difficultyType d)
+{
+	if (d == LEVEL_ONE_EASY)
+		theGang.push_back(new lvlOne_Easy(pos, alienEasyTexture));
+	else if (d == LEVEL_ONE_HARD)
+		theGang.push_back(new lvlOne_Hard(pos, alienHardLvlTexture));
+	else if (d == LEVEL_TWO_EASY)
+		theGang.push_back(new lvlTwo_Easy(pos, alienHardLvlTexture));
+	else if (d == LEVEL_TWO_HARD)
+		theGang.push_back(new lvlTwo_Hard(pos, alienHardLvlTexture));
+
+}
+
+void alienGroupMgr::setLevel(difficultyType type)
+{
+	lvl = type;
 }
 

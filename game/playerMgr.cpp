@@ -38,3 +38,23 @@ void player::reset()
 {
 	ship.setPosition(xPos, yPos);
 }
+
+void player::shoot(player p, RenderWindow & window, shotMgr & shot)
+{
+	Event event;
+
+	while (window.pollEvent(event))//																|
+	{//																								|
+		//																							|
+		if (event.type == Event::Closed)//															|
+			window.close(); //																		|
+		else if (event.type == Event::KeyPressed)
+		{//																							`---------------,
+			if (event.key.code == Keyboard::Space)//																|
+			{//																										|
+				shot.shoot(MISSILE, p.getSprite().getPosition());//												|
+			}//																										|
+		}//																											|
+	}//																												|
+
+}

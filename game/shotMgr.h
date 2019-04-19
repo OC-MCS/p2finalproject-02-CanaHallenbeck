@@ -21,4 +21,5 @@ public:
 	void draw(RenderWindow& win);
 	int getAmountFilled() { return shotsFired.size(); }
 	shot* getList(int i) { return shotsFired[i]; }
+	void reset();
 };
