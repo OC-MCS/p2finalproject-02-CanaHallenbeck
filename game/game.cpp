@@ -146,7 +146,7 @@ int main()
 					if (shot.getAmountFilled() > 0) //																										|
 						shot.move(); //																														|
 									 //																														|
-					if (hit && alien.getType() == LEVEL_ONE_EASY || hit && alien.getType() == LEVEL_TWO_EASY) //											|
+					if (hit && alien.getType() == LEVEL_ONE_EASY || hit && alien.getType() == LEVEL_TWO_EASY || hit && alien.getType()== HARBERT) //	    |
 						scoreCount += 100; //																												|
 					else if (hit && alien.getType() == LEVEL_ONE_HARD || hit && alien.getType() == LEVEL_TWO_HARD) //										|
 						scoreCount += 200; //																												|
@@ -182,7 +182,7 @@ int main()
 							alien.setLevel(LEVEL_TWO_HARD);			//														   								|
 							menu.victoryDisplay(window, scoreCount, livesRemaining); //																		|
 						}											//														   								|	
-						else if (alien.getType() == LEVEL_TWO_HARD || alien.getType() == LEVEL_TWO_EASY) //													|
+						else if (alien.getType() == LEVEL_TWO_HARD || alien.getType() == LEVEL_TWO_EASY || HARBERT) //										|
 						{															 //																		|
 							menu.victoryDisplay(window, scoreCount, livesRemaining); //																		|
 							menu.playAgainPrompt(window);   //		<<-------------------------------------------------------------------------------------{
