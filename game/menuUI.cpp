@@ -375,12 +375,10 @@ void menu::victoryDisplay(RenderWindow & window, int score, int lives)
 			{
 				wait = false;
 			}
-
 		}
 
 		count++;
 	}	
-
 }
 
 void menu::deathDisplay(RenderWindow & window, int score)
@@ -393,7 +391,7 @@ void menu::deathDisplay(RenderWindow & window, int score)
 	Text VictoryHeader("YOU DIED", font, 60);
 	VictoryHeader.setPosition(230, 145);
 	Text PointDisplay("\HIGEST SCORE : " + to_string(score), font, 20);
-	PointDisplay.setPosition(290, 350);
+	PointDisplay.setPosition(285, 350);
 
 	RectangleShape outline;
 	outline.setPosition(25, 40);

@@ -39,12 +39,11 @@ int main()
 		highScore = 0,  // highest score achieved during the game before dying
 		returnToPreviousScore = 0; // score gained from previous levels (if past level one)
 	bool secSwitch = false, // switches after a certain amount of frames for alien behavior
-		 death = false, // did the player die?
-		 hit, // was an alien hit?
-		 toStartMenu = true, // return to intro screen
-		 newGameOrLoadGame_SelectionMenu = true, // save or load game option (unfinished)
-		 levelChoiceDisplay = true; // level selection menu
-
+		death = false, // did the player die?
+		hit, // was an alien hit?
+		toStartMenu = true, // return to intro screen
+		newGameOrLoadGame_SelectionMenu = true, // save or load game option (unfinished)
+		levelChoiceDisplay = true; // level selection menu
 
 	Texture starsTexture;
 	if (!starsTexture.loadFromFile("stars.jpg"))
@@ -62,7 +61,6 @@ int main()
 	Sprite background; // level backdrop
 	background.setTexture(starsTexture);
 	background.setScale(1.5, 1.5);
-
 
 	while (window.isOpen())
 	{
@@ -133,6 +131,7 @@ int main()
 						scoreCount = returnToPreviousScore; //														|
 					}//																								|
 				}	 //																								|
+							//																						|
 				if (!death)//																						|
 				{		   //																					    |
 					ship.shoot(ship, window, shot);		//															`---------------,
@@ -172,34 +171,41 @@ int main()
 					//																																		|
 					//																																		|
 					if (alien.getAmountFilled() == 0)	//																									|
-					{									//																								 ---|
-						returnToPreviousScore = (scoreCount + (50 * livesRemaining));			//														|	|
-						menu.victoryDisplay(window, returnToPreviousScore, livesRemaining); 	//	      <<------------------------------------------------|
-						//																																	|
-						if (alien.getType() == LEVEL_TWO_EASY || alien.getType() == LEVEL_TWO_HARD || HARBERT)	//											|
-						{																						//				THESE TOO					|
-							toStartMenu = true;																	//											|
-																												//											|
-							newGameOrLoadGame_SelectionMenu = true;												//											|
-							menu.playAgainPrompt(window); // << ---------------------------------------------------------------,----------------------------
-						}							//																		   |
-						levelChoiceDisplay = true;  //																		   |
+					{												//														   								|
+						if (alien.getType() == LEVEL_ONE_EASY)		//														   								|
+						{											//														   								|
+							alien.setLevel(LEVEL_TWO_EASY);			//																					   ,/
+							menu.victoryDisplay(window, scoreCount, livesRemaining); 	   //		<<----------------------------------------------------`
+						}											//														   							  `\	
+						else if (alien.getType() == LEVEL_ONE_HARD) //														   								|
+						{											//														   								|
+							alien.setLevel(LEVEL_TWO_HARD);			//														   								|
+							menu.victoryDisplay(window, scoreCount, livesRemaining); //																		|
+						}											//														   								|	
+						else if (alien.getType() == LEVEL_TWO_HARD || alien.getType() == LEVEL_TWO_EASY) //													|
+						{															 //																		|
+							menu.victoryDisplay(window, scoreCount, livesRemaining); //																		|
+							menu.playAgainPrompt(window);   //		<<-------------------------------------------------------------------------------------{
+							toStartMenu = true;			    //																								|
+							newGameOrLoadGame_SelectionMenu = true; //																						|
+						}			    //																													|
+						alien.reset();	//																													|
+						shot.reset();	//																													|
+						ship.reset(); 	//																					   								|
+																	//														   								|
+																	//																						|
+																	//																						|
+						returnToPreviousScore = (scoreCount + (50 * livesRemaining));//																		|
+						levelChoiceDisplay = true;  //																										|
+													//																			,---------------------------`
 						livesRemaining = 3;			//																		   |
 													//																		   |
-						if (alien.getType() == LEVEL_ONE_EASY)		//														   |
-							alien.setLevel(LEVEL_TWO_EASY);			//														   |
-						else if (alien.getType() == LEVEL_ONE_HARD)	//														   |
-							alien.setLevel(LEVEL_TWO_HARD);			//														   |
 										//																					   |
-						alien.reset();	//																					   |
-						shot.reset();	//																					   |
-						ship.reset(); 	//																					   |
+										//																					   |
 					}					//																,----------------------`
 					//																				   |
 				}	//																				   |
-				//																					   |
-				window.display();  		//														   	   |
-		}//																							   |
+		}		//																					   |
 		else									 //													   |
 		{									     //												  	   |
 			menu.deathDisplay(window, highScore);//  <<------------------------------------------,-----`
@@ -211,12 +217,16 @@ int main()
 			alien.reset();
 			shot.reset();
 			ship.reset();
+
+			cout << "boop" << endl;
 		}
+		window.display();
 
 	}
 
 	return 0;
 }
+
 
 void timerFunctions(alienGroupMgr & alien, shotMgr & shot, int & timer, int & seconds, int & minutes, bool & secSwitch)
 {

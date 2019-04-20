@@ -205,7 +205,6 @@ void alienGroupMgr::reset()
 	{
 			iter = theGang.erase(iter);
 	}
-	
 
 	if (lvl == LEVEL_ONE_EASY)
 	{
@@ -219,14 +218,14 @@ void alienGroupMgr::reset()
 		}
 	}
 
-	else if (lvl == LEVEL_TWO_HARD)
+	else if (lvl == LEVEL_TWO_EASY)
 	{
 		for (int i = 0; i < 5; i++)
 		{
 			for (int j = 0; j < 7; j++)
 			{
 				Vector2f vec(135 + (90 * j), 50 + (70 * i));
-				theGang.push_back(new lvlOne_Hard(vec, alienHardLvlTexture));
+				theGang.push_back(new lvlOne_Easy(vec, alienEasyTexture));
 			}
 		}
 	}
